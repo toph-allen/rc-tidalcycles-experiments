@@ -1,0 +1,300 @@
+-- I'm reading through the Patterns guide at
+-- http://pages.tidalcycles.org/patterns.html
+
+cps (125/60/4)
+
+
+-- Pattern order
+
+d1 $ gain "1 0.8 0.5 0.7" # sound "bd"
+
+
+
+-- Pattern Operators
+
+-- The |=| operator seems to be... missing? In the others, rests always
+-- supersede.
+d1 $ (|*| speed "1.5 1 ~ 0") $ sound "arpy*4" # speed "~ 0.5 0.5 1"
+
+
+
+-- Numerical Patterns Shorthand
+
+-- This is selecting samples from supergong.
+d1 $ n "0(3,8) [5 7]" # sound "supergong"
+
+d1 $ n (off 0.125 (+12) $ off 0.25 (+7) $ slow 2 $ "0(3,8) [5 7]") # sound "supergong"
+
+-- It seems like `off` superimposes a pattern on itself with a shift
+d1  $ sound "bd [~ sn:2] mt lt*2"
+d1 $ off 0.125 (# pan 1) $ sound "bd [~ sn:2] mt lt*2"
+
+d1 $ slow 2
+  $ n (off 0.25 (+12)
+  $ off 0.125 (+7)
+  $ slow 2 "c(3,8) a(3,8,2) f(3,8) e(3,8,4)") 
+  # sound "superpiano"
+
+-- Superimpose is the same, but it doesn't do the time shift
+d1 $ superimpose (fast 2) $ sound "bd sn [cp ht] hh"
+
+-- Layer lets you superimpose multiple functions.
+d1 $ layer [rev, fast 2] $ sound "arpy [~ arpy:4]"
+d1 $ layer [id, rev, fast 2] $ sound "arpy [~ arpy:4]"
+
+-- This doesn't seem to work for me.
+d1 $ n "[0..7] [3..1]" # sound "supergong"
+
+
+d1 $ sound "bd(7,[8 16 32 64] / 4)"
+
+-- Different polythythms
+d1 $ stack[sound "bd(2,5)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(3,4)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(3,5,2)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(3,7)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(3,8)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(4,7)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(4,9)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(4,11)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,6)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,7)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,8)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,9)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,11)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,12)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(5,16)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(7,8)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(7,12)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(7,16,14)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(9,16)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(11,24,14)", sound "cp hh hh hh"]
+d1 $ stack[sound "bd(13,24,5)", sound "cp hh hh hh"]
+d1 $ silence
+
+
+
+-- Linear patterns
+
+d1 $ sound "arpy*8" # up (run 8)
+d1 $ sound "arpy*8" # speed (run 8)
+
+d1 $ sound "arpy*8" # up "[0 2 4 5 7 9 11 12]/2"
+d1 $ sound "arpy*8" # up "[0 2 3 5 7 8 10 12]/2"
+d1 $ sound "arpy*8" # up "0 7"
+d1 $ sound "arpy*8" # up "0 8"
+
+
+
+-- Selecting samples
+
+d1 $ sound $ samples "drum*4" "0 1 2 3"
+
+-- The leftmost pattern generates structure
+d1 $ s "drum arpy cp hh" # n (run 10)
+d1 $ n (run 10) # s "drum arpy cp hh"
+
+
+
+-- Combining patterns
+
+d1 $ pan "0 1 0.25 0.75" # sound "bd sn drum arpy"
+
+-- Pattern mapping
+d1 $ pan "0 1 0.25" # sound "bd sn drum arpy"
+
+-- Composition using stacking.
+d1 $ up "0 0*2 0*4 1" # sound "[arpy, bass2, bd]"
+
+
+
+-- Continuous patterns
+d1 $ sound "bd*16" # pan sine
+
+-- You can combine them, and use speed and density functions.
+d1 $ sound "bd*16" # pan (slowcat [sine, saw, square, tri])
+
+
+
+-- Polymeters
+d1 $ sound "{bd hh sn cp, arpy bass2 drum notes can}"
+
+d1 $ sound "{arpy bass2 drum notes can, bd hh sn cp}"
+d1 $ sound "{~ ~ ~ ~, arpy bass2 drum notes can}"
+
+
+
+-- Time Shifting
+
+-- You can shift forward or backward in cycle units
+d1 $ sound "bd bd bd bd"
+d2 $ every 3 (0.25 <~) $ sound "bd*2 cp*2 hh sn"
+d2 $ every 3 (0.25 ~>) $ sound "bd*2 cp*2 hh sn"
+
+d2 $ every 3 (0.3125 <~) $ sound "cp*4"
+d2 $ every 3 (0.3125 ~>) $ sound "cp*4"
+
+d1 $ "[0 0.25]/4" <~ (sound "bd*2 cp*2 hh sn")
+
+
+
+-- Randomness
+
+-- Rand gives a random value between zero and one
+d1 $ sound "arpy*4" # pan (rand)
+
+-- It can be scaled
+d1 $ sound "arpy*4" # pan (range 0.25 0.75 $ rand)
+-- The documentation use "scale"; "range" works for me. Hmm.
+
+-- You can scale the cutoff too.
+d1 $ sound "hh*32" # cutoff (range 300 1000 $ slow 4 $ sine) # resonance "0.4"
+
+-- irand gives random integers up to a certain number
+d1 $ s "arpy*8" # n (irand 30)
+d1 $ s "arpy*16" # slow 2 (n (run 10))
+
+
+
+-- Degrading patterns
+d1 $ sound "bd? sd? sd? sd?"
+d1 $ sound "bd*16?"
+d1 $ sound "[bd sn cp hh]?"
+
+-- Lets you specify the probability
+d1 $ degradeBy 0.25 $ sound "bd*16"
+
+-- You can do this for functions 
+d1 $ sometimesBy 0.75 (# crush 4) $ sound "bd arpy sn ~"
+
+
+
+-- Variation
+
+-- Conditional effects can be used to vary loops
+d1 $ every 5 (|+| speed "0.5") $ every 4 (0.25 <~) $ every 3 (rev) $
+   sound "bd sn arpy*2 cp"
+   # speed "[1 1.25 0.75 -1.5]/3"
+
+-- Whenmod applies a function if the loop number modulo the first argument is
+-- greater than the second argument
+d1 $ whenmod 8 6 (rev) $ sound "bd*2 arpy*2 cp hh*4"
+
+
+
+-- Function fills
+
+d1 $ every 8 (rev) $ every 4 (density 2) $ sound "bd hh sn cp"
+d1 $ whenmod 16 14 (# speed "2") $ sound "bd arpy*2 cp bass2"
+
+-- You can use `const` to just flat-out replace a pattern
+d1 $ const (sound "arpy*3") $ sound "bd sn cp hh"
+-- And you can apply this conditionally
+d1 $ whenmod 8 6 (const $ sound "arpy(3,8) bd*4") $ sound "bd sn bass2 sn"
+d1 $ every 12 (const $ sound "bd*4 sn*2") $ sound "bd sn bass2 sn"
+
+
+
+-- Multi-part patterns
+-- fastcat
+d1 $ fastcat [sound "bd sn:2" # vowel "[a o]/2",
+              sound "casio casio:1 casio:2*2"
+             ]
+d1 $ fastcat [sound "bd sn:2" # vowel "[a o]/2",
+              sound "casio casio:1 casio:2*2",
+              sound "drum drum:2 drum:3 drum:4*2"
+             ]
+
+-- cat / slowcat
+d1 $ cat [sound "bd sn:2" # vowel "[a o]/2",
+          sound "casio casio:1 casio:2*2",
+          sound "drum drum:2 drum:3 drum:4*2"
+         ]
+
+-- randcat will pick a random pattern
+d1 $ randcat [sound "bd sn:2" # vowel "[a o]/2",
+              sound "casio casio:1 casio:2*2",
+              sound "drum drum:2 drum:3 drum:4*2"
+             ]
+
+-- stack plays everything at once
+d1 $ stack [
+  sound "bd bd*2",
+  sound "hh*2 [sn cp] cp future*4",
+  sound (samples "arpy*8" (run 16))
+]
+-- Thus you can apply effects to all
+d1 $ every 4 (slow 2) $ whenmod 5 3 (# speed "0.75 1.5") $ stack [
+  sound "bd bd*2",
+  sound "hh*2 [sn cp] cp future*4",
+  sound (samples "arpy*8" (run 16))
+] # speed "[[1 0.8], [1.5 2]*2]/3"
+
+
+
+-- Truncating samples with cut
+
+d1 $ sound (samples "arpy*8" (run 8)) # speed "0.25"
+d1 $ sound (samples "arpy*8" (run 8)) # speed "0.25" # cut "1"
+
+-- Cut's argument is a group, not a value.
+d1 $ sound (samples "arpy*8" (run 8)) # speed "0.25" # cut "1"
+d2 $ sound (samples "bass2*6" (run 6)) # speed "0.5" # cut "2"
+
+-- Works in a stack
+d1 $ stack [
+   sound (samples "arpy*8" (run 8)) # speed "0.25" # cut "1",
+   sound (samples "bass2*6" (run 6)) # speed "0.5" # cut "2" ]
+
+
+
+-- Transitions
+d1 $ sound (samples "hc*8" (iter 4 $ run 4))
+t1 anticipate $ sound (samples "bd(3,8)" (run 3))
+-- This doesn't work for me. I don't have t1.
+
+t1 (xfadeIn 16) $ sound "bd(5,8)"
+
+
+
+-- Samples
+-- Run Quark.gui in SuperCollider and opern Dirt-Samples folder.
+
+
+
+-- Synths
+
+d1 $ midinote "60 62*2" # s "supersaw"
+d1 $ n "c5 d5*2" # s "supersaw"
+
+d1 $ n "<[a5,cs5,e5,g5]*3 [d5,fs5,g5,c5]>" # s "supersquare" # gain "0.7"
+
+d2 $ every 4 (rev) $ n "<[g5 df5 e5 a5] [gf5 d5 c5 g5]*3>" # s "supersaw"
+
+
+d1 $ n "0 5" # s "supersaw"
+
+d1 $ n "c5 d5*2" # s "superchip" # sustain "0.4 0.2"
+
+d1 $ jux (# accelerate "-0.1") $ s "supermandolin*8" # midinote "[80!6 78]/8"
+  # sustain "1 0.25 2 1"
+
+
+d1 $ midinote (slow 2 $ (run 8) * 7 + 50) # s "supergong" # decay "[1 0.2]/4"
+  # voice "[0.5 0]/8" # sustain (slow 16 $ scale 5 0.5 $ saw1)
+
+
+d1 $ s "super808 supersnare" # n (irand 5)
+  # voice "0.2" # decay "[2 0.5]/4" # accelerate "-0.1" # sustain "0.5" # speed "[0.5 2]/4"
+
+d1 $ n "[c2 e3 g4 c5 c4 c3]/3" # s "[superpwm supersaw supersquare]/24" # sustain "0.5"
+  # voice "0.9" # semitone "7.9" # resonance "0.3" # lfo "3" # pitch1 "0.5" # speed "0.25 1"
+
+d1 $ s "super/8" # midinote ((irand 10) + 30) # sustain "8"
+ -- # accelerate "0.5" # voice "0.5" # pitch1 "0.15" # slide "-0.5" # resonance "0.7"
+ -- # attack "1" # release "20" # room "0.9" # size "0.9" # orbit "1"
+
+
+d1 $ n (slow 8 $ "[[c4,e4,g4,c5]*4 [e4,g4,b5,e5]*4]" + "<12 7>") # s "superpiano"
+  -- # velocity (slow 8 $ scale 0.8 1.1 sine1) # sustain "8"
+

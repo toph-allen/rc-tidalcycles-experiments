@@ -1,0 +1,63 @@
+cps (125/60/4)
+
+bassline1 = cat[
+  note "[0 -1 0 0 15 -1 12 11]",
+  fastcat[
+    note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]]
+
+fastcat[
+    note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]
+
+rhythm = "[0 0 0 0 0 0 0 0]*2"
+notes = "[0 -1 0 0 15 -1 12 11] / 2"
+notes = "[0 -1 0 0 15 -1 12? 11] / 2" -- How do I get it to only replace it sometimes
+notes = "[0 -1 0 0] / 2"
+randnotes = choose[0, 0, 0, 0, 0 -1, -1, 15, 12, 11]
+bassline1 = note ((rhythm |> randnotes) - 24)
+bassline2 = fastcat [note ((rhythm |> randnotes) - 24)
+
+p 8
+  $ bassline1
+  # gain 0.8
+  # s "supersaw"
+  # voice 0
+  # attack 0.01 # hold 0.067 # release 0.02
+  # distort 0
+  # lpf 800
+  # resonance (choose[0.3, 0.2, 0.2])
+  -- # resonance ((range 0.2 0.3 (rand)) / 10) -- Using range with rand is funky.
+  # 0
+
+interpolateIn 8 4
+  $ note ("[0 -1 0 0 15 -1 12 11]*2" - 36)
+  # gain 0.8
+  # s "supersaw"
+  # voice 0
+  # attack 0.01 # hold 0.067 # release 0.02
+  # distort 0.2
+  # lpf (rangex 400 800 (rand)) * 1
+  # resonance (range 0.25 0.5 (rand))
+  # hpf 0
+
+interpolateIn 8 4
+  $ note ("[0 -1 0 0 15 -1 12 11]*2" - 24)
+  # gain 0.8
+  # s "supersaw"
+  # voice 0
+  # attack 0.01 # hold 0.067 # release 0.02
+  # distort 0.6
+  # lpf (range 400 800 (rand))
+  # resonance (range 0.25 0.74 (rand))
+  # hpf (range 400 600 (slow 8 sine))
+
+interpolate 8
+  $ note ("[0 -1 0 0 15 -1 12 11]*2" - 36)
+  # gain 0.8
+  # s "superreese"
+  # voice 0
+  # attack 0.01 # hold 0.067 # release 0.02
+  # lpf (range 200 450 (rand))
+  # resonance ((range 0.25 0.3 (sine / 3)) * rand)
+  # hpf 0
+
+
