@@ -120,39 +120,40 @@ d3
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 d3
   $ sound "[<hh hh ~ hh> hh] [~ hh] [hh hh] [~ hh]"
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 d3 $ sound "hh ~ ~ ~ hh ~ ~ ~ [hh hh] ~ ~ [hh hh hh] ~ "
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 d3 $ sound "hh ~ hh ~ hh ~ hh hh hh ~ hh ~ hh ~ hh ~ "
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 -- This is the same as the following
 
 d3 $ sound "[hh hh] [hh [hh hh]] [hh hh] [hh hh]"
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 d3 $ sound "[hh hh] [hh [hh hh]] [hh hh] <[hh hh] [hh hh hh] [hh hh] [hh hh]*3>"
+  # speed 2
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 d3
   $ every 3 (jux (rev))
@@ -162,7 +163,7 @@ d3
   # gain (1 - (rand * 0.1))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 -- swing experiments
 d3
@@ -173,7 +174,7 @@ d3
   # speed (1 - (rand * 0.02))
   # release 0.3
   # hpf 4000
-  # lpf 8000
+  -- # lpf 8000
 
 
 

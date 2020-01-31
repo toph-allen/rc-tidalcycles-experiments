@@ -1,5 +1,6 @@
 -- I'm reading through the Patterns guide at
 -- http://pages.tidalcycles.org/patterns.html
+-- pages.tidalcycles.org is for an old version — tidalcycles.org is current
 
 cps (125/60/4)
 

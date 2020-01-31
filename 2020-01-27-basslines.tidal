@@ -1,37 +1,40 @@
-cps (125/60/4)
+setcps(130/60/4)
 
-bassline1 = cat[
-  note "[0 -1 0 0 15 -1 12 11]",
-  fastcat[
-    note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]]
+-- bassline1 = cat[
+--   note "[0 -1 0 0 15 -1 12 11]",
+--   fastcat[
+--     note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]]
 
-fastcat[
-    note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]
+-- fastcat[
+--     note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]
 
 rhythm = "[0 0 0 0 0 0 0 0]*2"
 notes = "[0 -1 0 0 15 -1 12 11] / 2"
-notes = "[0 -1 0 0 15 -1 12? 11] / 2" -- How do I get it to only replace it sometimes
-notes = "[0 -1 0 0] / 2"
-randnotes = choose[0, 0, 0, 0, 0 -1, -1, 15, 12, 11]
+-- how do I get it to only replace  sometimes
+-- notes = "[0 -1 0 0] / 2"
+randnotes = choose[0, 0, 0, 0, 0 -1, -1, 2, 6, 15, 12, 11, 18, 21]
 bassline1 = note ((rhythm |> randnotes) - 24)
-bassline2 = fastcat [note ((rhythm |> randnotes) - 24)
+-- bassline2 = fastcat [note ((rhythm |> randnotes) - 24)]
 
+-- i'm not sure how "hold" is working
+-- range (rand) seems to be working wrong
+-- i don't know how to view the parameter values
 p 8
   $ bassline1
   # gain 0.8
-  # s "supersaw"
+  # sound "supersaw"
   # voice 0
-  # attack 0.01 # hold 0.067 # release 0.02
+  # attack 0.01 # hold 0.07 # release 0.02
   # distort 0
-  # lpf 800
+  # lpf 8000
   # resonance (choose[0.3, 0.2, 0.2])
-  -- # resonance ((range 0.2 0.3 (rand)) / 10) -- Using range with rand is funky.
+  # resonance ((range 0.2 0.3 (rand)) / 10)
   # 0
 
 interpolateIn 8 4
   $ note ("[0 -1 0 0 15 -1 12 11]*2" - 36)
   # gain 0.8
-  # s "supersaw"
+  # sound "supersaw"
   # voice 0
   # attack 0.01 # hold 0.067 # release 0.02
   # distort 0.2
@@ -39,25 +42,62 @@ interpolateIn 8 4
   # resonance (range 0.25 0.5 (rand))
   # hpf 0
 
-interpolateIn 8 4
-  $ note ("[0 -1 0 0 15 -1 12 11]*2" - 24)
+p 8
+  $ note ("[0 -1 0 <0 15> <15 0> -1 12 11]*2" - 24)
   # gain 0.8
-  # s "supersaw"
+  # sound "supersaw"
   # voice 0
-  # attack 0.01 # hold 0.067 # release 0.02
+  # attack 0.01 # hold (1 / 8) # release 0.02
   # distort 0.6
   # lpf (range 400 800 (rand))
-  # resonance (range 0.25 0.74 (rand))
+  -- # resonance (range 0.25 0.4 (rand))
+  # resonance choose [0.25, 0.4]
   # hpf (range 400 600 (slow 8 sine))
 
-interpolate 8
-  $ note ("[0 -1 0 0 15 -1 12 11]*2" - 36)
+interpolateIn 8 2
+  $ degradeBy 0.0125
+  $ note ("[0 -1 2 <15 0> <0 15> -1 12 0]*2" - 24)
   # gain 0.8
-  # s "superreese"
+  # sound "supersaw"
   # voice 0
+  # attack 0.01 # hold (1 / 12) # decay 0 # release 0.02
+  # distort 0.6
+  # lpf (range 400 800 (rand))
+  # resonance (range 0.25 0.6 (rand))
+  # hpf 0
+
+interpolateIn 8 1
+  $ degradeBy 0.0125
+  $ note ("<[0 -1 0 <18 0> <0 18> -1 19 0]*2 [0 -1 2 <21 0> <0 21> -1 22 0]*2>" - 24)
+  # gain 0.8
+  # sound "supersaw"
+  # voice 0
+  # attack 0.01 # hold (1 / 12) # decay 0 # release 0.02
+  # distort 0.4
+  # lpf (range 400 800 (rand))
+  # resonance (range 0.3 0.6 (rand))
+  # hpf 0
+
+interpolateIn 8 4
+  $ note ("<[0 -1 0 <22 0> <0 22> -1 24 1]*2 [0 -1 0 <22 0> <0 22> -1 24 0]*2>" - 24)
+  # gain 0.8
+  # sound "supersaw"
+  # voice 0
+  # attack 0.01 # hold (1 / 12) # decay 0.5 # release 0.02
+  -- # distort 0.5
+  # lpf (range 400 800 (rand))
+  # resonance (range 0.25 0.3 (rand))
+  # hpf 0
+
+interpolateIn 8 4
+  $ note ("[0 -1 0 <1 0><0 1> -1 0 2]*2" - 36)
+  # gain 0.8
+  # sound "superreese"
+  # voice 0
+  # distort 0.2
   # attack 0.01 # hold 0.067 # release 0.02
   # lpf (range 200 450 (rand))
   # resonance ((range 0.25 0.3 (sine / 3)) * rand)
-  # hpf 0
+  # hpf 4000
 
 
