@@ -1,0 +1,52 @@
+setcps (130/60/4)
+
+
+d1
+  -- $ gain "1 1 1 ~ 1 1 1 ~"
+  $ striateBy 32 (1/128)
+  -- $ striate 4
+  $ gain "1 1 1 ~ 1 1 1 ~"
+  # sound "jungbass:18"
+  # nudge "[0 0.04]*4"
+
+d1
+  $ slow 2
+  $ cat [
+    gain "1 1 1 ~ 1 1 1 ~",
+    gain "1 1 1 ~ 1 [1 1] 1 ~"
+    ]
+  # sound "jungbass:14"
+  # legato 1
+  -- # gain (slow 2 $ smooth "0.5 0.8")
+  -- # nudge "[0 0.04]*4"
+  -- # accelerate "[0 9] *4"
+  # attack "<0.01 0.1 0.25 0.5 0.75 0.9 1>"
+  -- # release "<0.01 0.1 0.25 0.5 0.75 0.9 1>"
+  -- # sustain "<0.01 0.1 0.25 0.5 0.75 0.9 1>"
+
+d1 $ s "[jvbass rave]/2" # attack "<0 0.1 0.2 0.3 0.5>"
+
+
+d1 $ stack [
+  sound "bd bd/4",
+  sound "hh(5,8)"
+  ]
+  # nudge "[0 0.04]*4"
+
+
+
+
+
+d1 $ n (slow 2 $ segment 8 $ range 0 9 $ sine) # sound "numbers"
+d1 $ n (slow 2 $ segment 8 $ smooth "0 9") # sound "numbers"
+
+d1 $ slice 8 "7 6 5 4 3 2 1 0" $ sound "breaks165" # legato 1 
+
+
+d1 $ chop "<16 128 32>" $ sound "arpy ~ feel*2 newnotes"
+
+
+d1 $ slow 32 $ striate' 32 (1/16) $ sound "bev"
+
+
+d1 $ slow 4 $ striate 3 $ sound "numbers:0 numbers:1 numbers:2 numbers:3"
