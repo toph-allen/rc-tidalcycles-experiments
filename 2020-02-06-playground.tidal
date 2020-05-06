@@ -38,9 +38,10 @@ d1 $ stack [
 
 
 d1 $ n (slow 2 $ segment 8 $ range 0 9 $ sine) # sound "numbers"
+
 d1 $ n (slow 2 $ segment 8 $ smooth "0 9") # sound "numbers"
 
-d1 $ slice 8 "7 6 5 4 3 2 1 0" $ sound "breaks165" # legato 1 
+d1 $ slice 8 "7 6 5 4 3 2 1 0" $ sound "breaks165" # legato 1
 
 
 d1 $ chop "<16 128 32>" $ sound "arpy ~ feel*2 newnotes"

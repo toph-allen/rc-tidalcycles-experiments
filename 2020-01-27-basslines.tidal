@@ -9,6 +9,7 @@ setcps(130/60/4)
 --     note "0", note (choose[0, -1, 11]), note "0, 0 3 -1 12 11"]
 
 rhythm = "[0 0 0 0 0 0 0 0]*2"
+
 notes = "[0 -1 0 0 15 -1 12 11] / 2"
 -- how do I get it to only replace  sometimes
 -- notes = "[0 -1 0 0] / 2"
@@ -81,13 +82,8 @@ interpolateIn 8 1
 interpolateIn 8 4
   $ note ("<[0 -1 0 <22 0> <0 22> -1 24 1]*2 [0 -1 0 <22 0> <0 22> -1 24 0]*2>" - 24)
   # gain 0.8
-  # sound "supersaw"
-  # voice 0
-  # attack 0.01 # hold (1 / 12) # decay 0.5 # release 0.02
-  -- # distort 0.5
-  # lpf (range 400 800 (rand))
-  # resonance (range 0.25 0.3 (rand))
-  # hpf 0
+
+
 
 interpolateIn 8 4
   $ note ("[0 -1 0 <1 0><0 1> -1 0 2]*2" - 36)
@@ -99,5 +95,3 @@ interpolateIn 8 4
   # lpf (range 200 450 (rand))
   # resonance ((range 0.25 0.3 (sine / 3)) * rand)
   # hpf 4000
-
-

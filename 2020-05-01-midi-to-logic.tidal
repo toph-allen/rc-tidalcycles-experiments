@@ -1,0 +1,66 @@
+-- Stuff from the live coding workshop 2020-01-22
+
+setcps (135/60/4) -- This lets you set the clock according to bpms
+-- Each cycle is a bar
+
+------------
+-- Breaks --
+------------
+
+
+-- KICK --
+
+p1 = "1 ~ [~ 1] ~"
+p2 = "1 ~ [~ 1] [~ 1 ~ ~]"
+p3 = p1
+p4 = "1 ~ [~ 1] [~ 1 1 1]"
+kickpattern = cat[gain p1, gain p2, gain p1, gain p4]
+
+p 1
+  $ swingBy (1/16) 8
+  -- $ degradeBy 0.05
+  $ kickpattern
+  # note "c3"
+  # "midi"
+
+
+  -- SNARE --
+
+p 2
+  $ swing By (1/16) 8
+  $ note "~ d3 ~ <d3 d3 d3 <[d3 d3 d3 d3]>>"
+  # "midi"
+
+
+-- HATS --
+
+d3 $ note "[fs3 fs3] [fs3 [fs3 fs3]] [fs3 fs3] <[fs3 fs3] [fs3 as3] [fs3 fs3] [fs3 fs3]*3>"
+  # "midi"
+
+d3
+  $ every 3 (jux (rev))
+  $ degradeBy 0.1
+  $ note "[fs3?? fs3] [~ fs3]?? [~ fs3] [~ fs3]??"
+  # "midi"
+
+
+-- swing experiments
+d3
+  $ degradeBy 0.15
+  $ swingBy (1/12) 8
+  $ note "fs3(10,16,6)"
+  # "midi"
+
+
+-- TOMS --
+
+
+d5
+  $ degradeBy 0.2
+  $ note "g3(5,16,1)"
+  # "midi"
+
+d6
+  $ degradeBy 0.7
+  $ note "d4(5,16,1)"
+  # "midi"

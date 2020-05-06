@@ -7,6 +7,33 @@ setcps (130/60/4) -- This lets you set the clock according to bpms
 -- Breaks --
 ------------
 
+d2 $ gain "1 1 1 1"
+# sound "hh bd"
+# speed 1.5
+
+
+d1 $ note "c5 d5 e5 f5"
+# sound "superhammond"
+
+d1 $ note "0 2 4 5"
+# sound "superhammond"
+
+
+d1 $ (+ up "<0 2 -2 5>")
+$ midinote "60 62 64 65"
+# sound "superhammond"
+
+d1 $ midinote "60 62 64 65"
+# sound "superhammond"
+
+d1 $ sound "808*8"
+# n (irand 30)
+
+
+d1 $ note (scale "major" "0 1 2 3")
+# sound "superhammond"
+
+
 -- Kick --
 
 d1 $ gain "1 ~ <[~ 1] [[0.9 0.9] 1] [~ 1]? [~ 1]> <~ [~ 1 ~ ~] ~ [~ 0.9 0.9 1]>"
@@ -30,7 +57,7 @@ p 1
   $ degradeBy 0.05
   $ kickpattern
   # sound "bd"
-  # up 4 
+  # up 4
   # speed 0.5
   -- # lpf (range 4000 5500 $ fast 1.4 $ sine)
   -- # resonance (range 0.0 0.1 $ fast 2.6 $ sine)
@@ -43,7 +70,7 @@ p 1.1
   $ degradeBy 0.15
   $ kickpattern
   # sound "bd"
-  # up 4 
+  # up 4
   # distort rand * "~ ~ ~ <0.01 0.01 0.01 0.01 0.01 0.5 0.01 0.5>"
   # lpf 500
   # hpf 70
@@ -54,7 +81,7 @@ p 1.2
   $ degradeBy 0.25
   $ "0.01" ~> kickpattern
   # sound "bd"
-  # up 4 
+  # up 4
   # distort rand * "~ ~ ~ <0.01 0.01 0.01 0.01 0.01 0.5 0.01 0.5>"
   # gain 0.85
   # delay 0.1
@@ -67,7 +94,7 @@ p 1.3
   $ degradeBy 0.35
   $ "0.02" ~> kickpattern
   # sound "bd"
-  # up 4 
+  # up 4
   # distort rand * "~ ~ ~ <0.01 0.01 0.01 0.01 0.01 0.5 0.01 0.5>"
   # gain 0.9
   # delay 0.1
@@ -81,7 +108,7 @@ p 1.4
   $ degradeBy 0.45
   $ kickpattern
   # sound "bd"
-  # up 4 
+  # up 4
   # distort rand * "~ ~ ~ <0.01 0.01 0.01 0.01 0.01 0.5 0.01 0.5>"
   # gain 0.5
   # delay 0.1
@@ -210,7 +237,7 @@ d4
   # lpf ((slow 3 $ range 500 5000 sine) + (rand * 400))
   # hpf 100
   # resonance 0.1
-  # gain (1 - (rand * 0.1))
+  # gain (1.3 - (rand * 0.1))
 
 
 

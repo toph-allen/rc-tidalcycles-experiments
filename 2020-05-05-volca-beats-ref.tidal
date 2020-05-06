@@ -1,0 +1,53 @@
+p 1
+  $ n "0"
+  # s "midi"
+  # midichan 1
+
+-- Kick
+p 1
+  $ midinote "36"
+  # s "midi"
+
+p 1
+  $ note "c3 c3 c3 c3"
+  # s "midi"
+
+-- Snare
+p 2
+  $ note "d3"
+  # s "midi"
+
+-- Clap
+p 3
+  $ note "ds3"
+  # s "midi"
+
+-- Hats
+
+p 4
+  $ note "fs3 as3 fs3 as3"
+  # s "midi"
+
+-- Toms
+
+p 5
+  $ note "g3 d4"
+  # s "midi"
+
+-- Crash
+
+p 5
+  $ note "cs4"
+  # s "midi"
+
+-- Agogo
+
+p 5
+  $ note "ds6"
+  # s "midi"
+
+-- Claves
+
+p 5
+  $ note "cs4"
+  # s "midi"
